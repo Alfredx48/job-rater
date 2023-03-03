@@ -10,38 +10,42 @@ const JobForm = () => {
 
 	const handleChange = (e) => {
 		setJobForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-	};
+  };
+  
+  const resetForm = () => {
+    setJobForm({
+      name: "",
+      description: "",
+      rating: "",
+      link: "",
+    });
+  };
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const formData = {
-			"entry.435934912": jobForm.name,
-			"entry.1817079979": jobForm.description,
-			"entry.1858259425": jobForm.rating,
-			"entry.316886086": jobForm.link,
-		};
-		const formUrl =
-			"https://docs.google.com/forms/d/e/1FAIpQLSefSj0o7Y3ZxUvLDGNWllaEgfze8ntcrJ9LdH1MLOg9lTf6uw/formResponse";
-		try {
-			await fetch(formUrl, {
-				method: "POST",
-				mode: "no-cors",
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-				},
-				body: new URLSearchParams(formData),
-			});
-			console.log("Job submitted successfully!");
-      setJobForm({
-        name: "",
-        description: "",
-        rating: "",
-        link: "",
-      })
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = {
+      "entry.435934912": jobForm.name,
+      "entry.1817079979": jobForm.description,
+      "entry.1858259425": jobForm.rating,
+      "entry.316886086": jobForm.link,
+    };
+    const formUrl =
+      "https://docs.google.com/forms/d/e/1FAIpQLSefSj0o7Y3ZxUvLDGNWllaEgfze8ntcrJ9LdH1MLOg9lTf6uw/formResponse";
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formData),
+      });
+      console.log("Job submitted successfully!");
+      resetForm();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   {/* <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSefSj0o7Y3ZxUvLDGNWllaEgfze8ntcrJ9LdH1MLOg9lTf6uw/viewform?embedded=true" width="640" height="706" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe> */}
 	return (
@@ -51,7 +55,8 @@ const JobForm = () => {
     <label htmlFor="name" className="block font-medium text-gray-700 mb-2">
     Job Name
     </label>
-    <input
+          <input
+            value={jobForm.name}
          type="text"
          name="name"
          id="name"
@@ -63,7 +68,8 @@ const JobForm = () => {
     <label htmlFor="link" className="block font-medium text-gray-700 mb-2">
     Job Link
     </label>
-    <input
+          <input
+                    value={jobForm.link}
          type="text"
          name="link"
          id="link"
@@ -75,7 +81,8 @@ const JobForm = () => {
     <label htmlFor="description" className="block font-medium text-gray-700 mb-2">
     Job Description
     </label>
-    <textarea
+          <textarea
+                    value={jobForm.description}
          name="description"
          id="description"
          onChange={handleChange}
@@ -86,7 +93,8 @@ const JobForm = () => {
     <label htmlFor="rating" className="block font-medium text-gray-700 mb-2">
     Job Rating
     </label>
-    <select
+          <select
+                    value={jobForm.rating}
          name="rating"
          id="rating"
          onChange={handleChange}
